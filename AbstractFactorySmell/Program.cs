@@ -11,14 +11,14 @@ namespace Console
             var container = new Container(c => { c.AddRegistry<AppRegistry>(); });
             var entryPoint = container.GetInstance<IEntryPoint>();
 
-            var storage = Storage();
+            var storage = SimulateUserChoice();
             
             var result = entryPoint.Start(storage, 1000);
             
             System.Console.WriteLine(result);
         }
 
-        private static string Storage()
+        private static string SimulateUserChoice()
         {
             var storages = new[] {"sql", "other"};
             var randomStorage = new Random().Next(0, 2);

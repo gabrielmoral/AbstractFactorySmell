@@ -2,22 +2,22 @@
 {
     public class EntryPoint : IEntryPoint
     {
-        private readonly IStorageFactory _factory;
+        private readonly IStorageCalculator _storageCalculator;
 
-        public EntryPoint(IStorageFactory factory)
+        public EntryPoint(IStorageCalculator storageCalculator)
         {
-            _factory = factory;
+            _storageCalculator = storageCalculator;
         }
         
         public string Start(string storageType, int number)
         {
-            // In this point it looks like we have only IStorageFactory as a dependency but
-            // IStorage is a dependency as well, although not injected into the constructor.
-            // The reason of the code smell is that always we introduce an Abstract factory
-            // we increase the number of dependencies a consumer has.
-            var storage = _factory.Resolve(storageType);
+            //Removing the abstract factory we have decreased the number of
+            //dependencies of the consumer, therefore it will be easier to 
+            //unit test and mantain.
             
-            return storage.Save(number);
+            var result = _storageCalculator.Calculate(storageType, number);
+
+            return result;
         }
     }
 }
